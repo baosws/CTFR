@@ -1,3 +1,4 @@
+// fuck you who read this
 #pragma once
 #include "includes.h"
 class Animal: public Object {
