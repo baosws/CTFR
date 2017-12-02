@@ -2,9 +2,9 @@
 #include "includes.h"
 class Rectangle {
 protected:
-	Point coord;
-	int width;
-	int height;
+	Point coord; // save
+	int width; // save
+	int height; // save
 public:
 	int& getX();
 	int& getY();

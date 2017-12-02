@@ -1,40 +1,43 @@
 #pragma once
 #include "includes.h"
 class Road {
-	vector<Lane*> lanes;
 	Window* window;
+	vector<Lane*> lanes; // save
 public:
 	Road(Window*);
 	~Road();
+
 	template<class T>
 	void addLane(int, int, int, double, int);
+
 	void run();
-	bool crash(People*);
-	void draw();
+	bool crash(Player*);
 	void reset();
 };
 
-Road::Road(Window* w) {
-	srand(time(NULL));
+Road::Road(Window* w = NULL) {
+	if (!w)
+		return;
+	lanes.clear();
 	window = w;
+	srand(time(NULL));
 }
 Road::~Road() {
 	for (auto& x: lanes)
 		delete x;
 }
-void Road::draw() {
-	for (auto& x: lanes)
-		x->draw();
-}
+
 void Road::run() {
 	for (auto& x: lanes)
 		x->run();
+	for (auto& x: lanes)
+		x->draw();
 }
 void Road::reset() {
 	for (auto& x: lanes)
 		x->reset();
 }
-bool Road::crash(People* player) {
+bool Road::crash(Player* player) {
 	for (auto& x: lanes)
 		if (x->crash(player))
 			return true;

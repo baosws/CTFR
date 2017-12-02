@@ -3,9 +3,9 @@
 const int DEFAULT_GO = 500;
 const int DEFAULT_STOP = 100;
 class TrafficLight {
-	int stop;
-	int go;
-	int now = 0;
+	int stop; // save
+	int go; // save
+	int now = 0; // save
 public:
 	TrafficLight(int, int);
 	~TrafficLight() {}

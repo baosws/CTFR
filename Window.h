@@ -5,10 +5,10 @@ typedef vector<vector<ci> > Screen;
 
 class Window: public Rectangle {
 protected:
-	HANDLE handle;
-	HWND consoleWindow;
-	Screen screen, lastScreen;
-	vector<Point> toBeRendered, lastRendered;
+	HANDLE handle; // save
+	HWND consoleWindow; // save
+	Screen screen, lastScreen; // save
+	vector<Point> toBeRendered, lastRendered; // save
 	void _putCharXY(int, int, char);
 	void gotoXY(int, int);
 	friend class Map;

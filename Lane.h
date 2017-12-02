@@ -1,48 +1,41 @@
 #pragma once
 #include "includes.h"
 class Lane: public Rectangle {
-	double speed;
-	int timeToGo;
-	vector<Object*> objects;
-	int fullWidth;
-	Window* window;
-	TrafficLight* trafficLight;
+	Window* window; // not save
+	double speed; // save
+	vector<Object*> objects; // save
+	TrafficLight trafficLight; // save
+	int fullWidth = 0; // save
 public:
-	Lane(Window*, int, int, double, int);
+	Lane(Window*, int, int, double);
 	~Lane();
-	bool crash(People*);
+	bool crash(Player*);
 	void run();
 	void reset();
 	void add(Object*, int);
-	void draw(Window*);
+	void draw();
 	void speedUp(double);
 	int getHeight();
 };
 
-Lane::Lane(Window* w, int x, int y, double _speed = -1, int _width = -1) {
+Lane::Lane(Window* w, int x, int y, double _speed = -1) {
 	window = w;
 	coord = Point(x, y);
-	if (_width == -1)
-		_width = w->getWidth();
-	width = _width;
 	speed = _speed;
-	fullWidth = 0;
-	trafficLight = new TrafficLight();
 }
 Lane::~Lane() {
 	for (auto& x: objects)
 		delete x;
-	delete trafficLight;
 }
-bool Lane::crash(People* p) {
+bool Lane::crash(Player* p) {
 	for (auto& x: objects)
 		if (x->isImpact(p))
 			return true;
 	return false;
 }
 void Lane::run() {
-	fullWidth = max(width, fullWidth);
-	if (!trafficLight->isStopped())
+	fullWidth = max(fullWidth, window->getWidth());
+	if (!trafficLight.isStopped())
 		for (auto& x: objects)
 			x->move(speed * dx[0], speed * dy[0]);
 	for (auto& x: objects)
@@ -50,35 +43,30 @@ void Lane::run() {
 			x->getY() -= fullWidth;
 		else if (x->getY() + x->getWidth() - 1 < coord.getY())
 			x->getY() += fullWidth;
-	trafficLight->update();
+	trafficLight.update();
 }
 void Lane::add(Object* obj, int safeDistance = 4) {
 	fullWidth += safeDistance;
 	obj->getY() = coord.getY() + fullWidth;
+	fullWidth += obj->getWidth();
 	obj->getX() = coord.getX();
 	objects.push_back(obj);
-	fullWidth += obj->getWidth();
 }
-void Lane::draw(Window* w = NULL) {
+void Lane::draw() {
 	for (auto& x: objects)
-		x->draw(0, 0, w);
+		x->draw();
 }
 void Lane::reset() {
 	if (objects.empty())
 		return;
-	double dx = objects[0]->getY();
+	double dy = objects[0]->getY();
 	for (auto& x: objects) {
-		x->getY() -= dx;
+		x->getY() -= dy;
 		if (x->getY() + x->getWidth() - 1 < 0)
 			x->getY() += fullWidth;
 		else if (x->getY() >= fullWidth)
 			x->getY() -= fullWidth;
 	}
-}
-void Lane::speedUp(double accelebrator) {
-	speed *= accelebrator;
-	if (speed >= 1)
-		speed = 1;
 }
 int Lane::getHeight() {
 	int res = 0;

@@ -1,28 +1,30 @@
 #pragma once
 #include "includes.h"
+typedef vector<string> Contents;
 class Dialog {
 protected:
 	Window* window;
-	Point coord;
-	vector<string>* contents;
+	Point coord; // not save
+	Contents contents; // not save
 public:
-	static vector<string> DefaultContents[];
-	Dialog(Window*, int, int, int);
+	Dialog(Window*);
+	void addContent(string);
 	~Dialog() {}
-	void draw(Window*);
+	void show();
 };
-Dialog::Dialog(Window* w, int x, int y, int type) {
+Dialog::Dialog(Window* w) {
 	window = w;
-	coord = Point(x, y);
-	contents = &Dialog::DefaultContents[type];
+	coord = Point(w->getX() + w->getHeight() / 2, w->getY() + w->getWidth() / 2);
 }
-void Dialog::draw(Window* w = NULL) {
-	if (!w)
-		w = window;
-	for (int i = 0; i < contents->size(); i++)
-		w->putStringXY(coord.getX() - contents->size() + i, coord.getY() - (*contents)[i].length() / 2, (*contents)[i], 10);
+void Dialog::addContent(string content) {
+	contents.push_back(content);
 }
-vector<string> Dialog::DefaultContents[] = {
-	{"~~~GAME OVER~~~", "----RESTART? [Y]es/[N]o----"},
-	{"----WELCOME TO \"CROSS THE F*****G ROAD----\"", "[1]. Start New Game", "[2]. Load Saved Game", "[3]. Exit"}
-};
+void Dialog::show() {
+	for (int i = 0; i < contents.size(); i++)
+		window->putStringXY(coord.getX() - contents.size() + i, coord.getY() - contents[i].length() / 2, contents[i], 10);
+	window->render();
+}
+// Contents Dialog::DefaultContents[] = {
+// 	{"~~~GAME OVER~~~", "----RESTART? [Y]es/[N]o----"},
+// 	{"----WELCOME TO \"CROSS THE F*****G ROAD----\"", "[1]. Start New Game", "[2]. Load Saved Game", "[3]. Exit"}
+// };

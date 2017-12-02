@@ -1,7 +1,7 @@
 #pragma once
 #include "includes.h"
 class PointF {
-	double x, y;
+	double x, y; // save
 public:
 	double& getX();
 	double& getY();
