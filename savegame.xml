@@ -1,0 +1,82 @@
+<root>
+    <game state="1">
+        <map level="0" isRunning="1">
+            <player coordX="16" coordY="50" dead="0" curDir="-1"/>
+            <road id="0">
+                <lane id="0" coordX="1" coordY="0" speed="-0.20000000000000001" fullWidth="255">
+                    <trafficLight stop="100" go="500" now="99"/>
+                    <Object id="0" shapeID="2" coordX="1" coordY="111.60000000000105"/>
+                    <Object id="1" shapeID="2" coordX="1" coordY="128.60000000000144"/>
+                    <Object id="2" shapeID="2" coordX="1" coordY="145.60000000000105"/>
+                    <Object id="3" shapeID="2" coordX="1" coordY="162.59999999999985"/>
+                    <Object id="4" shapeID="2" coordX="1" coordY="179.59999999999863"/>
+                    <Object id="5" shapeID="2" coordX="1" coordY="196.59999999999744"/>
+                    <Object id="6" shapeID="2" coordX="1" coordY="213.59999999999621"/>
+                    <Object id="7" shapeID="2" coordX="1" coordY="230.59999999999314"/>
+                    <Object id="8" shapeID="2" coordX="1" coordY="247.59999999999121"/>
+                    <Object id="9" shapeID="2" coordX="1" coordY="9.5999999999917467"/>
+                    <Object id="10" shapeID="2" coordX="1" coordY="26.599999999992654"/>
+                    <Object id="11" shapeID="2" coordX="1" coordY="43.599999999993763"/>
+                    <Object id="12" shapeID="2" coordX="1" coordY="60.599999999994971"/>
+                    <Object id="13" shapeID="2" coordX="1" coordY="77.599999999996172"/>
+                    <Object id="14" shapeID="2" coordX="1" coordY="94.599999999997976"/>
+                </lane>
+                <lane id="1" coordX="4" coordY="0" speed="0.80000000000000004" fullWidth="132">
+                    <trafficLight stop="100" go="500" now="525"/>
+                    <Object id="0" shapeID="3" coordX="4" coordY="101.60000000000102"/>
+                    <Object id="1" shapeID="3" coordX="4" coordY="123.60000000000076"/>
+                    <Object id="2" shapeID="3" coordX="4" coordY="13.600000000000779"/>
+                    <Object id="3" shapeID="3" coordX="4" coordY="35.600000000000946"/>
+                    <Object id="4" shapeID="3" coordX="4" coordY="57.600000000000989"/>
+                    <Object id="5" shapeID="3" coordX="4" coordY="79.600000000001074"/>
+                </lane>
+                <lane id="2" coordX="10" coordY="0" speed="-0.40000000000000002" fullWidth="136">
+                    <trafficLight stop="100" go="500" now="392"/>
+                    <Object id="0" shapeID="1" coordX="10" coordY="87.200000000001026"/>
+                    <Object id="1" shapeID="1" coordX="10" coordY="104.20000000000145"/>
+                    <Object id="2" shapeID="1" coordX="10" coordY="121.20000000000228"/>
+                    <Object id="3" shapeID="1" coordX="10" coordY="2.2000000000031434"/>
+                    <Object id="4" shapeID="1" coordX="10" coordY="19.200000000003381"/>
+                    <Object id="5" shapeID="1" coordX="10" coordY="36.200000000002802"/>
+                    <Object id="6" shapeID="1" coordX="10" coordY="53.200000000002099"/>
+                    <Object id="7" shapeID="1" coordX="10" coordY="70.200000000001339"/>
+                </lane>
+                <lane id="3" coordX="13" coordY="0" speed="0.40000000000000002" fullWidth="162">
+                    <trafficLight stop="100" go="500" now="158"/>
+                    <Object id="0" shapeID="4" coordX="13" coordY="100.79999999999819"/>
+                    <Object id="1" shapeID="4" coordX="13" coordY="127.79999999999944"/>
+                    <Object id="2" shapeID="4" coordX="13" coordY="-7.1999999999995579"/>
+                    <Object id="3" shapeID="4" coordX="13" coordY="19.799999999999976"/>
+                    <Object id="4" shapeID="4" coordX="13" coordY="46.799999999998761"/>
+                    <Object id="5" shapeID="4" coordX="13" coordY="73.799999999997965"/>
+                </lane>
+                <lane id="4" coordX="17" coordY="0" speed="-0.5" fullWidth="255">
+                    <trafficLight stop="100" go="500" now="27"/>
+                    <Object id="0" shapeID="2" coordX="17" coordY="8.5"/>
+                    <Object id="1" shapeID="2" coordX="17" coordY="25.5"/>
+                    <Object id="2" shapeID="2" coordX="17" coordY="42.5"/>
+                    <Object id="3" shapeID="2" coordX="17" coordY="59.5"/>
+                    <Object id="4" shapeID="2" coordX="17" coordY="76.5"/>
+                    <Object id="5" shapeID="2" coordX="17" coordY="93.5"/>
+                    <Object id="6" shapeID="2" coordX="17" coordY="110.5"/>
+                    <Object id="7" shapeID="2" coordX="17" coordY="127.5"/>
+                    <Object id="8" shapeID="2" coordX="17" coordY="144.5"/>
+                    <Object id="9" shapeID="2" coordX="17" coordY="161.5"/>
+                    <Object id="10" shapeID="2" coordX="17" coordY="178.5"/>
+                    <Object id="11" shapeID="2" coordX="17" coordY="195.5"/>
+                    <Object id="12" shapeID="2" coordX="17" coordY="212.5"/>
+                    <Object id="13" shapeID="2" coordX="17" coordY="229.5"/>
+                    <Object id="14" shapeID="2" coordX="17" coordY="246.5"/>
+                </lane>
+                <lane id="5" coordX="20" coordY="0" speed="0.40000000000000002" fullWidth="205">
+                    <trafficLight stop="100" go="500" now="182"/>
+                    <Object id="0" shapeID="6" coordX="20" coordY="-18.200000000001303"/>
+                    <Object id="1" shapeID="6" coordX="20" coordY="22.799999999999301"/>
+                    <Object id="2" shapeID="6" coordX="20" coordY="63.799999999998512"/>
+                    <Object id="3" shapeID="6" coordX="20" coordY="104.79999999999734"/>
+                    <Object id="4" shapeID="6" coordX="20" coordY="145.79999999999734"/>
+                </lane>
+            </road>
+        </map>
+    </game>
+</root>

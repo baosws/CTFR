@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--Demo read, write, edit XML document using TinyXML library-->
+<Authors>
+	<Author id="01" team="0.2">
+		<Name>Kevin La</Name>
+		<Age>27</Age>
+	</Author>
+   	 <Author id="268" team="6.9">
+		<Name>Nguyen Van Nghia</Name>
+		<Age>20</Age>
+	</Author>
+</Authors>
