@@ -12,23 +12,8 @@ public:
 	void update();
 	bool isStopped();
 	void reset();
-	void save(XMLDocument* doc, XMLElement* root) {
-		XMLElement* trafficLight = doc->NewElement("trafficLight");
-		
-		trafficLight->SetAttribute("stop", stop);
-		trafficLight->SetAttribute("go", go);
-		trafficLight->SetAttribute("now", now);
-
-		root->InsertEndChild(trafficLight);
-	}
-	void load(XMLElement* root) {
-		cerr << "loading a trafficLight\n";
-		XMLElement* trafficLight = root->FirstChildElement("trafficLight");
-		trafficLight->QueryIntAttribute("stop", &stop);
-		trafficLight->QueryIntAttribute("go", &go);
-		trafficLight->QueryIntAttribute("now", &now);
-		cerr << "a trafficLight loaded\n";
-	}
+	void save(XMLDocument* doc, XMLElement* root);
+	void load(XMLElement* root);
 };
 void TrafficLight::reset() {
 	now = rand() % (stop + go);
@@ -41,4 +26,21 @@ void TrafficLight::update() {
 }
 bool TrafficLight::isStopped() {
 	return now >= go;
+}
+void TrafficLight::save(XMLDocument* doc, XMLElement* root) {
+	XMLElement* trafficLight = doc->NewElement("trafficLight");
+	
+	trafficLight->SetAttribute("stop", stop);
+	trafficLight->SetAttribute("go", go);
+	trafficLight->SetAttribute("now", now);
+
+	root->InsertEndChild(trafficLight);
+}
+void TrafficLight::load(XMLElement* root) {
+	cerr << "loading a trafficLight\n";
+	XMLElement* trafficLight = root->FirstChildElement("trafficLight");
+	trafficLight->QueryIntAttribute("stop", &stop);
+	trafficLight->QueryIntAttribute("go", &go);
+	trafficLight->QueryIntAttribute("now", &now);
+	cerr << "a trafficLight loaded\n";
 }

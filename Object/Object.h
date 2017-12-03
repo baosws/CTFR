@@ -17,23 +17,8 @@ public:
 	virtual void move(double, double);
 	virtual void draw();
 	bool isImpact(Object*);
-	void save(XMLDocument* doc, XMLElement* root, int id = 0) {
-		XMLElement* obj = doc->NewElement("Object");
-
-		obj->SetAttribute("id", id);
-		obj->SetAttribute("shapeID", shapeID);
-		obj->SetAttribute("coordX", coord.getX());
-		obj->SetAttribute("coordY", coord.getY());
-
-		root->InsertEndChild(obj);
-	}
-	virtual void load(XMLElement* obj) {
-		cerr << "loading an object\n";
-		obj->QueryIntAttribute("shapeID", &shapeID);
-		obj->QueryDoubleAttribute("coordX", &coord.getX());
-		obj->QueryDoubleAttribute("coordY", &coord.getY());
-		cerr << "an object loaded\n";
-	}
+	void save(XMLDocument* doc, XMLElement* root, int id = 0);
+	virtual void load(XMLElement* obj);
 };
 
 Object::Object(Window* w, double _x = 0, double _y = 0, int shapeType = 0) {
@@ -70,4 +55,21 @@ bool Object::isImpact(Object* p) {
 			if (!isNullCell(i, j) && !p->isNullCell(i, j))
 				return true;
 	return false;
+}
+void Object::save(XMLDocument* doc, XMLElement* root, int id = 0) {
+	XMLElement* obj = doc->NewElement("Object");
+
+	obj->SetAttribute("id", id);
+	obj->SetAttribute("shapeID", shapeID);
+	obj->SetAttribute("coordX", coord.getX());
+	obj->SetAttribute("coordY", coord.getY());
+
+	root->InsertEndChild(obj);
+}
+void Object::load(XMLElement* obj) {
+	cerr << "loading an object\n";
+	obj->QueryIntAttribute("shapeID", &shapeID);
+	obj->QueryDoubleAttribute("coordX", &coord.getX());
+	obj->QueryDoubleAttribute("coordY", &coord.getY());
+	cerr << "an object loaded\n";
 }

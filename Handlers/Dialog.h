@@ -12,9 +12,10 @@ public:
 	~Dialog() {}
 	void show();
 };
-Dialog::Dialog(Window* w) {
+Dialog::Dialog(Window* w = NULL) {
 	window = w;
-	coord = Point(w->getX() + w->getHeight() / 2, w->getY() + w->getWidth() / 2);
+	if (w)
+		coord = Point(w->getX() + w->getHeight() / 2, w->getY() + w->getWidth() / 2);
 }
 void Dialog::addContent(string content) {
 	contents.push_back(content);

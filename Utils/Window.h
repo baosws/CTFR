@@ -116,6 +116,7 @@ void Window::showCursor() {
 void Window::clearScreen(bool rebuildFrame = false) {
 	system("cls");
 	lastRendered.clear();
+	toBeRendered.clear();
 	for (int i = 0; i < screen.size(); i++)
 		for (int j = 0; j < screen[0].size(); j++)
 			screen[i][j] = lastScreen[i][j] = ci(' ', 0);

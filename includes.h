@@ -37,7 +37,6 @@ string to_string(int x) {ostringstream os; os << x; return os.str();}
 #include "Traffic/TrafficLight.h"
 #include "Traffic/Lane.h"
 
-
 #include "Traffic/Road.h"
 #include "GameInstances/Map.h"
 #include "GameInstances/Game.h"

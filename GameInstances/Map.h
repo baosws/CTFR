@@ -25,26 +25,8 @@ public:
 	int getLevel();
 	void setPlayerDir(int);
 	
-	void save(XMLDocument* doc, XMLElement* root) {
-		XMLElement* map = doc->NewElement("map");
-		
-		map->SetAttribute("level", level);
-		map->SetAttribute("isRunning", isRunning);
-		player->save(doc, map);
-		road->save(doc, map);
-
-		root->InsertEndChild(map);
-	}
-	void load(XMLElement* root) {
-		cerr << "loading map\n";
-		XMLElement* map = root->FirstChildElement("map");
-		
-		map->QueryIntAttribute("level", &level);
-		map->QueryIntAttribute("isRunning", &isRunning);
-		player->load(map);
-		road->load(map);
-		cerr << "map loaded\n";
-	}
+	void save(XMLDocument* doc, XMLElement* root);
+	void load(XMLElement* root);
 };
 
 Map::Map(Window* w = NULL) {
@@ -108,4 +90,24 @@ int Map::getLevel() {
 }
 void Map::setPlayerDir(int dir) {
 	player->setDir(dir);
+}
+void Map::save(XMLDocument* doc, XMLElement* root) {
+	XMLElement* map = doc->NewElement("map");
+
+	map->SetAttribute("level", level);
+	map->SetAttribute("isRunning", isRunning);
+	player->save(doc, map);
+	road->save(doc, map);
+
+	root->InsertEndChild(map);
+}
+void Map::load(XMLElement* root) {
+	cerr << "loading map\n";
+	XMLElement* map = root->FirstChildElement("map");
+	
+	map->QueryIntAttribute("level", &level);
+	map->QueryIntAttribute("isRunning", &isRunning);
+	player->load(map);
+	road->load(map);
+	cerr << "map loaded\n";
 }

@@ -14,24 +14,8 @@ public:
 	bool isDead();
 	void die();
 	void reset();
-	void save(XMLDocument* doc, XMLElement* root) {
-		XMLElement* player = doc->NewElement("player");
-		player->SetAttribute("coordX", coord.getX());
-		player->SetAttribute("coordY", coord.getY());
-		player->SetAttribute("dead", dead);
-		player->SetAttribute("curDir", curDir);
-		
-		root->InsertEndChild(player);
-	}
-	void load(XMLElement* root) {
-		cerr << "loading player\n";
-		XMLElement* player = root->FirstChildElement("player");
-		player->QueryDoubleAttribute("coordX", &coord.getX());
-		player->QueryDoubleAttribute("coordY", &coord.getY());
-		player->QueryIntAttribute("dead", &dead);
-		player->QueryIntAttribute("curDir", &curDir);
-		cerr << "player loaded\n";
-	}
+	void save(XMLDocument* doc, XMLElement* root);
+	void load(XMLElement* root);
 };
 
 // initiate with coordinate
@@ -71,4 +55,22 @@ void Player::move(double dx, double dy) {
 		|| getY() < 0
 		|| getY() + getWidth() - 1 >= window->getWidth())
 			Object::move(-dx, -dy);
+}
+void Player::save(XMLDocument* doc, XMLElement* root) {
+	XMLElement* player = doc->NewElement("player");
+	player->SetAttribute("coordX", coord.getX());
+	player->SetAttribute("coordY", coord.getY());
+	player->SetAttribute("dead", dead);
+	player->SetAttribute("curDir", curDir);
+	
+	root->InsertEndChild(player);
+}
+void Player::load(XMLElement* root) {
+	cerr << "loading player\n";
+	XMLElement* player = root->FirstChildElement("player");
+	player->QueryDoubleAttribute("coordX", &coord.getX());
+	player->QueryDoubleAttribute("coordY", &coord.getY());
+	player->QueryIntAttribute("dead", &dead);
+	player->QueryIntAttribute("curDir", &curDir);
+	cerr << "player loaded\n";
 }

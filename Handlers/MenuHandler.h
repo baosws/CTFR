@@ -24,6 +24,7 @@ MenuHandler::MenuHandler(Window* w, KeyboardHandler* _kb, string title, vector<p
 }
 Command MenuHandler::run() {
 	dialog.show();
+	kb->reset();
 	int t;
 	while (1) {
 		t = kb->getKey() - '0';

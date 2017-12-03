@@ -6,8 +6,11 @@ class Game {
 	Window* window; // not save
 	Map* map; // save
 	int state = RUNNING; // save
-	KeyboardHandler keyBoardHandler = KeyboardHandler('\0', 4); // not save
-	thread keyboard = thread([&] {keyBoardHandler.run(state);} ); // not save
+	KeyboardHandler* keyBoardHandler = new KeyboardHandler('\0', 4); // not save
+	thread keyboard = thread([&] {keyBoardHandler->run(state);} ); // not save
+	void save(XMLDocument*, XMLElement*);
+	void load(XMLElement*);
+	int started = 0;
 public:
 	Game();
 	~Game();
@@ -21,20 +24,6 @@ public:
 	void loadGame();
 	void run();
 	void process();
-	void save(XMLDocument* doc, XMLElement* root) {
-		XMLElement* game = doc->NewElement("game");
-		game->SetAttribute("state", state);
-		map->save(doc, game);
-
-		root->InsertEndChild(game);
-	}
-	void load(XMLElement* root) {
-		cerr << "loading game\n";
-		XMLElement* game = root->FirstChildElement("game");
-		game->QueryIntAttribute("state", &state);
-		map->load(game);
-		cerr << "game loaded\n";
-	}
 };
 typedef void (Game::*Command)();
 Game::Game() {
@@ -67,7 +56,7 @@ void Game::resetGame() {
 	state = RUNNING;
 	window->clearScreen(true);
 	map->reset();
-	keyBoardHandler.reset();
+	keyBoardHandler->reset();
 }
 void Game::saveGame() {
 	XMLDocument* doc = new XMLDocument;
@@ -77,16 +66,19 @@ void Game::saveGame() {
 	delete doc;
 }
 void Game::loadGame() {
+	pauseGame();
 	resetGame();
 	XMLDocument* doc = new XMLDocument;
 	doc->LoadFile("savegame.xml");
 	XMLElement* root = doc->FirstChildElement();
 	load(root);
-	startGame();
+	delete doc;
+	if (!started)
+		startGame();
 }
 
 void Game::run() {
-	MenuHandler menu(window, &keyBoardHandler, "Welcome to CROSS THE FUCKING ROAD!!!", {
+	MenuHandler menu(window, keyBoardHandler, "Welcome to CROSS THE ROAD!!!", {
 		{"Start new game", startGame},
 		{"Load saved game", loadGame},
 		{"Exit game", exitGame}
@@ -103,14 +95,16 @@ void Game::run() {
 	}
 }
 void Game::process() {
-	MenuHandler gameOverHandler(window, &keyBoardHandler, "GAME OVER! U SUCK!!! FUCK U!!! RESTART?", {
-				{"Fuck yeah", resetGame},
+	MenuHandler gameOverHandler(window, keyBoardHandler, "GAME OVER!!!! RESTART???", {
+				{"Yeah maybe", startGame},
 				{"Fuck no", exitGame}
 			});
 	while (isRunning()) {
 		map->run();
 		if (map->gameOver()) {
+			state = PLAYING;
 			auto cmd = gameOverHandler.run();
+			resetGame();
 			(this->*cmd)();
 			continue;
 		}
@@ -119,18 +113,12 @@ void Game::process() {
 	}
 }
 void Game::startGame() {
+	started = 1;
 	// resetGame();
 	thread gameProcessor([&] {process();});
 	while (isRunning()) {
-		char tmp = keyBoardHandler.getKey();
-		//cerr << tmp << endl;
-		if (map->gameOver()) {
-			if (tmp == 'Y')
-				resetGame();
-			else if (tmp == 'N')
-				exitGame();
-		}
-		else {
+		char tmp = keyBoardHandler->getKey();
+		if (!map->gameOver()) {
 			if (tmp == 27)
 				exitGame();
 			else if (tmp == 'P')
@@ -149,4 +137,18 @@ void Game::startGame() {
 		}
 	}
 	gameProcessor.join();
+}
+void Game::save(XMLDocument* doc, XMLElement* root) {
+	XMLElement* game = doc->NewElement("game");
+	game->SetAttribute("state", state);
+	map->save(doc, game);
+
+	root->InsertEndChild(game);
+}
+void Game::load(XMLElement* root) {
+	cerr << "loading game\n";
+	XMLElement* game = root->FirstChildElement("game");
+	game->QueryIntAttribute("state", &state);
+	map->load(game);
+	cerr << "game loaded\n";
 }

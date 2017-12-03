@@ -29,7 +29,6 @@ void KeyboardHandler::reset() {
 void KeyboardHandler::run(int& state) {
 	char tmp;
 	while (state) {
-		//while (1);
 		tmp = toupper(_getch());
 		keys.push(tmp);
 		if (maxSize)

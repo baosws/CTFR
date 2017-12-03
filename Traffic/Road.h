@@ -18,29 +18,8 @@ public:
 			delete x;
 		lanes.clear();
 	}
-	void save(XMLDocument* doc, XMLElement* root, int id = 0) {
-		XMLElement* road = doc->NewElement("road");
-
-		road->SetAttribute("id", id);
-		for (int i = 0; i < lanes.size(); i++)
-			lanes[i]->save(doc, road, i);
-
-		root->InsertEndChild(road);
-	}
-	void load(XMLElement* root) {
-		cerr << "loading road\n";
-		clear();
-		XMLElement* road = root->FirstChildElement("road");
-
-		XMLElement* laneNode = road->FirstChildElement();
-		while (laneNode) {
-			Lane* lane = new Lane(window);
-			lane->load(laneNode);
-			lanes.push_back(lane);
-			laneNode = laneNode->NextSibling();
-		}
-		cerr << "road loaded\n";
-	}
+	void save(XMLDocument* doc, XMLElement* root, int id = 0);
+	void load(XMLElement* root);
 };
 
 Road::Road(Window* w = NULL) {
@@ -79,4 +58,27 @@ void Road::addLane(int safeDistX, int safeDistY, int count, double speed, int y 
 	while (count--)
 		newLane->add(new T(window), safeDistY);
 	lanes.push_back(newLane);
+}
+void Road::save(XMLDocument* doc, XMLElement* root, int id = 0) {
+	XMLElement* road = doc->NewElement("road");
+
+	road->SetAttribute("id", id);
+	for (int i = 0; i < lanes.size(); i++)
+		lanes[i]->save(doc, road, i);
+
+	root->InsertEndChild(road);
+}
+void Road::load(XMLElement* root) {
+	cerr << "loading road\n";
+	clear();
+	XMLElement* road = root->FirstChildElement("road");
+
+	XMLElement* laneNode = road->FirstChildElement();
+	while (laneNode) {
+		Lane* lane = new Lane(window);
+		lane->load(laneNode);
+		lanes.push_back(lane);
+		laneNode = laneNode->NextSibling();
+	}
+	cerr << "road loaded\n";
 }

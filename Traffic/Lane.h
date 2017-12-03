@@ -20,39 +20,8 @@ public:
 	void speedUp(double);
 	int getHeight();
 	void clear();
-	void save(XMLDocument* doc, XMLElement* root, int id = 0) {
-		XMLElement* lane = doc->NewElement("lane");
-		
-		lane->SetAttribute("id", id);
-		lane->SetAttribute("coordX", coord.getX());
-		lane->SetAttribute("coordY", coord.getY());
-		lane->SetAttribute("speed", speed);
-		lane->SetAttribute("fullWidth", fullWidth);
-		trafficLight->save(doc, lane);
-		for (int i = 0; i < objects.size(); i++)
-			objects[i]->save(doc, lane, i);
-
-		root->InsertEndChild(lane);
-	}
-	void load(XMLElement* lane) {
-		cerr << "loading a lane\n";
-		clear();
-		lane->QueryIntAttribute("coordX", &coord.getX());
-		lane->QueryIntAttribute("coordY", &coord.getY());
-		lane->QueryDoubleAttribute("speed", &speed);
-		lane->QueryIntAttribute("fullWidth", &fullWidth);
-
-		trafficLight = new TrafficLight;
-		trafficLight->load(lane);
-
-		XMLElement* objNode = lane->FirstChildElement("Object");
-		while (objNode) {
-			Object* obj = Obstacle::_load(window, objNode);
-			objects.push_back(obj);
-			objNode = objNode->NextSibling();
-		}
-		cerr << "a lane loaded\n";
-	}
+	void save(XMLDocument* doc, XMLElement* root, int id = 0);
+	void load(XMLElement* lane);
 };
 
 Lane::Lane(Window* w, int x = 0, int y = 0, double _speed = -1) {
@@ -123,4 +92,37 @@ int Lane::getHeight() {
 	for (auto& x: objects)
 		res = max(res, x->getHeight());
 	return res;
+}
+void Lane::save(XMLDocument* doc, XMLElement* root, int id = 0) {
+	XMLElement* lane = doc->NewElement("lane");
+	
+	lane->SetAttribute("id", id);
+	lane->SetAttribute("coordX", coord.getX());
+	lane->SetAttribute("coordY", coord.getY());
+	lane->SetAttribute("speed", speed);
+	lane->SetAttribute("fullWidth", fullWidth);
+	trafficLight->save(doc, lane);
+	for (int i = 0; i < objects.size(); i++)
+		objects[i]->save(doc, lane, i);
+
+	root->InsertEndChild(lane);
+}
+void Lane::load(XMLElement* lane) {
+	cerr << "loading a lane\n";
+	clear();
+	lane->QueryIntAttribute("coordX", &coord.getX());
+	lane->QueryIntAttribute("coordY", &coord.getY());
+	lane->QueryDoubleAttribute("speed", &speed);
+	lane->QueryIntAttribute("fullWidth", &fullWidth);
+
+	trafficLight = new TrafficLight;
+	trafficLight->load(lane);
+
+	XMLElement* objNode = lane->FirstChildElement("Object");
+	while (objNode) {
+		Object* obj = Obstacle::_load(window, objNode);
+		objects.push_back(obj);
+		objNode = objNode->NextSibling();
+	}
+	cerr << "a lane loaded\n";
 }
