@@ -18,26 +18,26 @@ using namespace std;
 const int dx[] = {0, -1, 0, 1};
 const int dy[] = {-1, 0, 1, 0};
 string to_string(int x) {ostringstream os; os << x; return os.str();}
-#include "Point.h"
-#include "PointF.h"
-#include "Rectangle.h"
+#include "Geo/Point.h"
+#include "Geo/PointF.h"
+#include "Geo/Rectangle.h"
 
-#include "Window.h"
+#include "Utils/Window.h"
 
-#include "Shape.h"
-#include "Object.h"
+#include "Object/Shape.h"
+#include "Object/Object.h"
+#include "GameInstances/Obstacle.h"
 
-#include "Dialog.h"
-#include "KeyboardHandler.h"
-#include "MenuHandler.h"
+#include "Handlers/Dialog.h"
+#include "Handlers/KeyboardHandler.h"
+#include "Handlers/MenuHandler.h"
 
-#include "Player.h"
+#include "GameInstances/Player.h"
 
-#include "TrafficLight.h"
-#include "Lane.h"
+#include "Traffic/TrafficLight.h"
+#include "Traffic/Lane.h"
 
-#include "Obstacle.h"
 
-#include "Road.h"
-#include "Map.h"
-#include "Game.h"
+#include "Traffic/Road.h"
+#include "GameInstances/Map.h"
+#include "GameInstances/Game.h"
