@@ -24,6 +24,7 @@ const int WAIT_FOR_THREAD_TO_TERMINATE = 100;
 const int dx[] = {0, -1, 0, 1};
 const int dy[] = {-1, 0, 1, 0};
 string to_string(int x) {ostringstream os; os << x; return os.str();}
+int to_num(string x) {int res = 0;for (int i = 0; i < x.length(); i++)res = res * 10 + x[i] - '0';return res;}
 #include "Geo/Point.h"
 #include "Geo/PointF.h"
 #include "Geo/Rectangle.h"

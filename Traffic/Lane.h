@@ -89,10 +89,10 @@ void Lane::reset() {
 	trafficLight->reset();
 }
 int Lane::getHeight() {
-	int res = trafficLight->getHeight();
+	int res = 0;
 	for (auto& x: objects)
 		res = max(res, x->getHeight());
-	return res;
+	return res + trafficLight->getHeight();
 }
 void Lane::save(XMLDocument* doc, XMLElement* root, int id = 0) {
 	XMLElement* lane = doc->NewElement("lane");

@@ -10,6 +10,7 @@ class MenuHandler {
 public:
 	MenuHandler(Window*, KeyboardHandler*, string, vector<pair<string, Command> >);
 	// ~MenuHandler();
+
 	Command run();
 };
 MenuHandler::MenuHandler(Window* w, KeyboardHandler* _kb, string title, vector<pair<string, Command> > choices): dialog(w) {

@@ -26,7 +26,7 @@ public:
 	void setTitle(const char*);
 };
 
-Window::Window(HANDLE _handle = STD_OUTPUT_HANDLE, HWND _consoleWindow = GetConsoleWindow(), int _x = 1, int _y = 1, int _width = 80, int _height = 23) {
+Window::Window(HANDLE _handle = STD_OUTPUT_HANDLE, HWND _consoleWindow = GetConsoleWindow(), int _x = 1, int _y = 1, int _width = 80, int _height = 22) {
 	handle = _handle;
 	consoleWindow = _consoleWindow;
 	coord = Point(_x, _y);

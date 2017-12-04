@@ -23,6 +23,7 @@ public:
 	void resetGame();
 	void saveGame();
 	void loadGame();
+	void setting();
 	void run();
 };
 typedef void (Game::*Command)();
@@ -108,12 +109,18 @@ void Game::loadGame() {
 	delete doc;
 	startGame();
 }
+void Game::setting() {
+	exitGame();
+	Prompt p;
+	string level = p.show(window, keyBoardHandler, "Choose level (0 -> 6): ");
+	map->setLevel(to_num(level));
+}
 void Game::run() {
-
 	MenuHandler menu(window, keyBoardHandler, "Welcome to CROSS THE ROAD!!!", {
 		{"Start new game", startGame},
 		{"Load saved game", loadGame},
-		{"Exit game", exitGame}
+		{"Exit game", exitGame},
+		{"Setting", setting}
 	});
 	bool started = false;
 	while (1) {
@@ -139,7 +146,7 @@ void Game::process() {
 			(this->*cmd)();
 			continue;
 		}
-		window->setTitle(("Score: " + to_string(map->getLevel())).c_str());
+		window->setTitle(("Level: " + to_string(map->getLevel())).c_str());
 		window->render();
 	}
 }

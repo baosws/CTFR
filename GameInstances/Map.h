@@ -1,6 +1,6 @@
 #pragma once
 #include "../includes.h"
-const int MAX_SPEED = 20ll;
+const int MAX_SPEED = 35;
 const int d_LEVEL = 5;
 class Map {
 	Window* window; // not save
@@ -10,7 +10,7 @@ class Map {
 
 	int level; // save
 	int isRunning; // save
-	
+	int defaultLevel = 0;
 	void initialLevel();
 public:
 	Map(Window*);
@@ -18,7 +18,7 @@ public:
 	void reset(bool);
 	void pause();
 	void resume();
-
+	void setLevel(int);
 	void run();
 
 	bool gameOver();
@@ -43,14 +43,18 @@ Map::~Map() {
 	delete player;
 	delete road;
 }
+void Map::setLevel(int lev) {
+	defaultLevel = lev * d_LEVEL % MAX_SPEED;
+	reset(false);
+}
 void Map::initialLevel() {
 	// addlane(safeDistX, safeDistY, count, speed, y = 0)
-	road->addLane<Bird>(1, 10, 15, -0.2);
-	road->addLane<Plane>(1, 15, 6, 0.8);
-	road->addLane<Car>(1, 10, 8, -0.4);
-	road->addLane<Truck>(1, 15, 6, 0.4);
-	road->addLane<Bird>(1, 10, 15, -0.5);
-	road->addLane<Snake>(1, 7, 5, 0.4);
+	road->addLane<Bird>(0, 10, 15, -0.2);
+	road->addLane<Plane>(0, 15, 6, 0.8);
+	road->addLane<Car>(0, 10, 8, -0.4);
+	road->addLane<Truck>(0, 15, 6, 0.4);
+	road->addLane<Bird>(0, 10, 15, -0.5);
+	road->addLane<Snake>(0, 7, 5, 0.4);
 }
 void Map::reset(bool levelUp = false) {
 	isRunning = true;
@@ -58,7 +62,7 @@ void Map::reset(bool levelUp = false) {
 	player->reset();
 	road->reset();
 	if (!levelUp)
-		level = 0;
+		level = defaultLevel;
 }
 void Map::pause() {
 	isRunning = false;
@@ -75,7 +79,11 @@ void Map::run() {
 			if (player->isFinished()) {
 				reset(true); // level-up
 				Dialog levelUp(window);
-				levelUp.addContent("LEVEL UP TO LEVEL " + to_string(getLevel()) + "!!!");
+				int nextLevel = getLevel();
+				if (nextLevel)
+					levelUp.addContent("LEVEL UP TO LEVEL " + to_string(nextLevel) + "!!!");
+				else
+					levelUp.addContent("RETURNING TO LEVEL 0!!!");
 				levelUp.show();
 				Sleep(LEVEL_UP);
 			}
