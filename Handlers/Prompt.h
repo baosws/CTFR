@@ -13,14 +13,16 @@ string Prompt::show(Window* w, KeyboardHandler* kb, string cap) {
 	int l = 1;
 	while (1) {
 		char tmp = kb->getKey();
-		if (tmp == '\r')
+		if (tmp == ENTER_KEY)
 			break;
-		if (tmp && tmp != 8) {
-			s += tmp;
-			w->_putCharXY(w->getX(), cap.length() + l++, tmp);
-		} else if (tmp == 8) {
-			w->_putCharXY(w->getX(), cap.length() + --l, ' ');
-			s.erase(s.length() - 1, 1);
+		if (tmp) {
+			if (tmp != BACKSPACE_KEY) {
+				s += tmp;
+				w->_putCharXY(w->getX(), cap.length() + l++, tmp);
+			} else {
+				w->_putCharXY(w->getX(), cap.length() + --l, ' ');
+				s.erase(s.length() - 1, 1);
+			}
 		}
 		w->render();
 

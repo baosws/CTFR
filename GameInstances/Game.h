@@ -77,7 +77,7 @@ void Game::saveGame() {
 	Sleep(WAIT_FOR_THREAD_TO_TERMINATE);
 
 	Prompt p;
-	string filename = p.show(window, keyBoardHandler, "SAVE GAME: Input file name to save: ");
+	string filename = p.show(window, keyBoardHandler, "Input file name to save: ");
 	filename += ".xml";
 	
 	XMLDocument* doc = new XMLDocument;
@@ -106,13 +106,13 @@ void Game::loadGame() {
 	Sleep(WAIT_FOR_THREAD_TO_TERMINATE);
 	
 	Prompt p;
-	string filename = p.show(window, keyBoardHandler, "LOAD SAVED GAME: Input file name to load: ");
+	string filename = p.show(window, keyBoardHandler, "Input file name to load: ");
 	filename += ".xml";
 	
 	XMLDocument* doc = new XMLDocument;
 	
 	while (doc->LoadFile(filename.c_str())) {
-		filename = p.show(window, keyBoardHandler, "LOAD SAVED GAME: File not available, please input file name to load a gain: ");
+		filename = p.show(window, keyBoardHandler, "File not available, please input file name to load again: ");
 		filename += ".xml";
 	}
 	load(doc->FirstChildElement());
@@ -127,11 +127,11 @@ void Game::setting() {
 	map->setLevel(to_num(level));
 }
 void Game::run() {
-	MenuHandler menu(window, keyBoardHandler, "Welcome to CROSS THE ROAD!!!", {
-		{"Start new game", startGame},
+	MenuHandler menu(window, keyBoardHandler, "Welcome to CROSS THE FURY ROAD!!!", {
+		{" Start new game", startGame},
 		{"Load saved game", loadGame},
-		{"Exit game", exitGame},
-		{"Setting", setting}
+		{"        Setting", setting},
+		{"      Exit game", exitGame}
 	});
 	while (1) {
 		resetGame();
@@ -145,7 +145,7 @@ void Game::run() {
 void Game::process() {
 	MenuHandler gameOverHandler(window, keyBoardHandler, "GAME OVER!!!! RESTART???", {
 				{"Yeah maybe", startGame},
-				{"No thanks", exitGame}
+				{"Nah thanks", exitGame}
 			});
 	while (isRunning()) {
 		map->run();
@@ -168,13 +168,13 @@ void Game::startGame() {
 		if (!map->gameOver()) {
 			if (tmp == 27)
 				exitGame();
-			else if (tmp == 'P')
+			else if (tmp == PAUSE_KEY)
 				pauseGame();
-			else if (tmp == 'C')
+			else if (tmp == RESUME_KEY)
 				resumeGame();
-			else if (tmp == 'L')
+			else if (tmp == SAVE_KEY)
 				saveGame();
-			else if (tmp == 'T')
+			else if (tmp == LOAD_KEY)
 				loadGame();
 			else {
 				tmp = string("AWDS").find(tmp);

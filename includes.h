@@ -18,7 +18,7 @@ using namespace tinyxml2;
 using namespace std;
 const int RUNNING = 1;
 const int PLAYING = 2;
-const int LOADING_DATA = 1500;
+const int LOADING_DATA = 500;
 const int LEVEL_UP = 1500;
 const int WAIT_FOR_THREAD_TO_TERMINATE = 100;
 const int dx[] = {0, -1, 0, 1};

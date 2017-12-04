@@ -43,8 +43,8 @@ bool Shape::isNullCell(int i, int j) const {
 }
 const Shape Shapes[] = {
 					Shape({"\2"}), // people
-					Shape({"  **** ",
-						   "**O**O**"}), // car
+					Shape({"  #### ",
+						   "##O##O##"}), // car
 					Shape({"__  __",
 						   "  \\/"}), // bird
 					Shape({"   /",

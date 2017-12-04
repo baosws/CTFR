@@ -1,5 +1,13 @@
 #pragma once
 #include "../includes.h"
+#define ENTER_KEY '\r'
+#define BACKSPACE_KEY 8
+#define PAUSE_KEY 'P'
+#define RESUME_KEY 'C'
+#define SAVE_KEY 'L'
+#define LOAD_KEY 'T'
+const int DEFAULT_NULLKEY = 0;
+
 class KeyboardHandler {
 	queue<char> keys; // save
 	char nullKey; // save
@@ -16,7 +24,7 @@ public:
 	~KeyboardHandler() {}
 };
 
-KeyboardHandler::KeyboardHandler(char _nullKey = 0, int _maxSize = 0): nullKey(_nullKey), maxSize(_maxSize) {}
+KeyboardHandler::KeyboardHandler(char _nullKey = DEFAULT_NULLKEY, int _maxSize = 0): nullKey(_nullKey), maxSize(_maxSize) {}
 
 char KeyboardHandler::getKey() {
 	char key = nullKey;

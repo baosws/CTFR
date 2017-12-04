@@ -4,7 +4,6 @@ class Player: public Object {
 	int dead = false; // save
 	int curDir = -1; // save
 public:
-	// Player() {}
 	Player(Window*);
 	~Player() {}
 	void move(double, double);
@@ -18,7 +17,6 @@ public:
 	void load(XMLElement* root);
 };
 
-// initiate with coordinate
 Player::Player(Window* w = NULL): Object(w) {
 	if (w)
 		coord = PointF(w->getHeight() - 1, w->getWidth() / 2 - 1);
