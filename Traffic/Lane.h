@@ -28,7 +28,7 @@ Lane::Lane(Window* w, int x = 0, int y = 0, double _speed = -1) {
 	window = w;
 	coord = Point(x, y);
 	speed = _speed;
-	trafficLight = new TrafficLight;
+	trafficLight = new TrafficLight(w, x);
 }
 void Lane::clear() {
 	for (auto& x: objects)
@@ -67,10 +67,11 @@ void Lane::add(Object* obj, int safeDistance = 4) {
 	fullWidth += safeDistance;
 	obj->getY() = coord.getY() + fullWidth;
 	fullWidth += obj->getWidth();
-	obj->getX() = coord.getX();
+	obj->getX() = coord.getX() + trafficLight->getHeight();
 	objects.push_back(obj);
 }
 void Lane::draw() {
+	trafficLight->draw();
 	for (auto& x: objects)
 		x->draw();
 }
@@ -88,7 +89,7 @@ void Lane::reset() {
 	trafficLight->reset();
 }
 int Lane::getHeight() {
-	int res = 0;
+	int res = trafficLight->getHeight();
 	for (auto& x: objects)
 		res = max(res, x->getHeight());
 	return res;
@@ -115,7 +116,7 @@ void Lane::load(XMLElement* lane) {
 	lane->QueryDoubleAttribute("speed", &speed);
 	lane->QueryIntAttribute("fullWidth", &fullWidth);
 
-	trafficLight = new TrafficLight;
+	trafficLight = new TrafficLight(window, coord.getX());
 	trafficLight->load(lane);
 
 	XMLElement* objNode = lane->FirstChildElement("Object");

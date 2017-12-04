@@ -10,6 +10,8 @@ class Game {
 	void save(XMLDocument*, XMLElement*);
 	void load(XMLElement*);
 	int started = 0;
+	void loadGameF(string);
+	void process();
 public:
 	Game();
 	~Game();
@@ -21,14 +23,17 @@ public:
 	void resetGame();
 	void saveGame();
 	void loadGame();
-	void loadGameF(string);
 	void run();
-	void process();
 };
 typedef void (Game::*Command)();
 Game::Game() {
 	window = new Window();
+	Dialog loading(window);
+	loading.addContent("Loading data...");
+	loading.show();
+	Sleep(LOADING_DATA);
 	map = new Map(window);
+	window->clearScreen();
 }
 Game::~Game() {
 	keyBoardHandler->exit();
@@ -83,8 +88,11 @@ void Game::loadGameF(string filename) {
 	XMLElement* root = doc->FirstChildElement();
 	load(root);
 	delete doc;
-
-	startGame();
+	MenuHandler afterSaving(window, keyBoardHandler, "Keep playing?", {
+		{"Yeah maybe", startGame},
+		{"No thanks", exitGame}
+	});
+	(this->*(afterSaving.run()))();
 }
 void Game::loadGame() {
 	state = PLAYING;
@@ -101,6 +109,7 @@ void Game::loadGame() {
 	startGame();
 }
 void Game::run() {
+
 	MenuHandler menu(window, keyBoardHandler, "Welcome to CROSS THE ROAD!!!", {
 		{"Start new game", startGame},
 		{"Load saved game", loadGame},
@@ -109,7 +118,6 @@ void Game::run() {
 	bool started = false;
 	while (1) {
 		resetGame();
-		//cerr << "runned" << endl;
 		auto cmd = menu.run();
 		(this->*cmd)();
 		if (cmd == &exitGame)

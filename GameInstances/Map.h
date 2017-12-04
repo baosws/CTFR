@@ -72,8 +72,13 @@ void Map::run() {
 		if (player->isDead() || road->crash(player))
 			player->die();
 		else {
-			if (player->isFinished())
+			if (player->isFinished()) {
 				reset(true); // level-up
+				Dialog levelUp(window);
+				levelUp.addContent("LEVEL UP TO LEVEL " + to_string(getLevel()) + "!!!");
+				levelUp.show();
+				Sleep(LEVEL_UP);
+			}
 			else {
 				player->moveByCurDir();
 				road->run();

@@ -42,17 +42,20 @@ bool Shape::isNullCell(int i, int j) const {
 	return base[i][j] == ' ';
 }
 const Shape Shapes[] = {
-					Shape({"X"}), // people
-					Shape({"  ***  ", "**@*@**"}), // car
+					Shape({"\2"}), // people
+					Shape({"  ***** ",
+						   "**o...o**"}), // car
 					Shape({"--   --", "  \\v/"}), // bird
 					Shape({"   /", "  /   /", "<****<", "  \\   \\", "   \\"}), // plane
-					Shape({"  **  ******",
-						   "************",
-						   "**@*****@*@*"}), // truck
+					Shape({"  ..  ......",
+						   "............",
+						   "..o......o.o."}), // truck
 					Shape({"**",
 						   "**",
 						   "  ****",
 						   " * **",
 						   "   *"}), // duck
-					Shape({"OOoooooooooooooooooooooooooooooo.."}) // loooooooooooooooong snake
+					Shape({"Oooooooooooooooooooooooooooooooo.."}), // loooooooooooooooong snake
+					Shape({"+"}), // red light
+					Shape({"-"}) // green light
 				};
