@@ -9,7 +9,6 @@ class Game {
 	thread keyboard = thread([&] {keyBoardHandler->run();} ); // not save
 	void save(XMLDocument*, XMLElement*);
 	void load(XMLElement*);
-	int started = 0;
 	void loadGameF(string);
 	void process();
 public:
@@ -134,7 +133,6 @@ void Game::run() {
 		{"Exit game", exitGame},
 		{"Setting", setting}
 	});
-	bool started = false;
 	while (1) {
 		resetGame();
 		auto cmd = menu.run();
