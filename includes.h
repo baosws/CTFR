@@ -11,10 +11,14 @@
 #include <sstream>
 #include <stdlib.h>
 #include <cmath>
+#include <mutex>
 #include "tinyxml2.h"
 #define eps 1e-8
 using namespace tinyxml2;
 using namespace std;
+const int RUNNING = 1;
+const int PLAYING = 2;
+const int WAIT_FOR_THREAD_TO_TERMINATE = 100;
 const int dx[] = {0, -1, 0, 1};
 const int dy[] = {-1, 0, 1, 0};
 string to_string(int x) {ostringstream os; os << x; return os.str();}
@@ -31,7 +35,7 @@ string to_string(int x) {ostringstream os; os << x; return os.str();}
 #include "Handlers/Dialog.h"
 #include "Handlers/KeyboardHandler.h"
 #include "Handlers/MenuHandler.h"
-
+#include "Handlers/Prompt.h"
 #include "GameInstances/Player.h"
 
 #include "Traffic/TrafficLight.h"

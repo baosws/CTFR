@@ -10,7 +10,7 @@ protected:
 	Screen screen, lastScreen; // save
 	vector<Point> toBeRendered, lastRendered; // save
 	void _putCharXY(int, int, char);
-	friend class Map;
+	friend class Prompt;
 public:
 	void gotoXY(int, int);
 	Window(HANDLE, HWND, int, int, int, int);

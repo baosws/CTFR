@@ -25,7 +25,3 @@ void Dialog::show() {
 		window->putStringXY(coord.getX() - contents.size() + i, coord.getY() - contents[i].length() / 2, contents[i], 10);
 	window->render();
 }
-// Contents Dialog::DefaultContents[] = {
-// 	{"~~~GAME OVER~~~", "----RESTART? [Y]es/[N]o----"},
-// 	{"----WELCOME TO \"CROSS THE F*****G ROAD----\"", "[1]. Start New Game", "[2]. Load Saved Game", "[3]. Exit"}
-// };

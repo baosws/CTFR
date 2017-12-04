@@ -1,13 +1,12 @@
 #pragma once
 #include "../includes.h"
-const int RUNNING = 1;
-const int PLAYING = 2;
+
 class Game {
 	Window* window; // not save
 	Map* map; // save
 	int state = RUNNING; // save
 	KeyboardHandler* keyBoardHandler = new KeyboardHandler('\0', 4); // not save
-	thread keyboard = thread([&] {keyBoardHandler->run(state);} ); // not save
+	thread keyboard = thread([&] {keyBoardHandler->run();} ); // not save
 	void save(XMLDocument*, XMLElement*);
 	void load(XMLElement*);
 	int started = 0;
@@ -22,6 +21,7 @@ public:
 	void resetGame();
 	void saveGame();
 	void loadGame();
+	void loadGameF(string);
 	void run();
 	void process();
 };
@@ -31,7 +31,9 @@ Game::Game() {
 	map = new Map(window);
 }
 Game::~Game() {
+	keyBoardHandler->exit();
 	keyboard.join();
+	delete keyBoardHandler;
 	if (window)
 		delete window;
 	if (map)
@@ -39,7 +41,7 @@ Game::~Game() {
 }
 
 bool Game::isRunning() {
-	return state & 1;
+	return state & RUNNING;
 }
 void Game::pauseGame() {
 	map->pause();
@@ -51,6 +53,7 @@ void Game::resumeGame() {
 }
 void Game::exitGame() {
 	state = 0;
+	Sleep(WAIT_FOR_THREAD_TO_TERMINATE);
 }
 void Game::resetGame() {
 	state = RUNNING;
@@ -59,24 +62,44 @@ void Game::resetGame() {
 	keyBoardHandler->reset();
 }
 void Game::saveGame() {
+	state = PLAYING;
+	Sleep(WAIT_FOR_THREAD_TO_TERMINATE);
+
+	Prompt p;
+	string filename = p.show(window, keyBoardHandler, "SAVE GAME: Input file name to save: ");
+	filename += ".xml";
+	
 	XMLDocument* doc = new XMLDocument;
 	XMLElement* root = doc->InsertFirstChild(doc->NewElement("root"));
 	save(doc, root);
-	doc->SaveFile("savegame.xml");
+	doc->SaveFile(filename.c_str());
+
 	delete doc;
+	loadGameF(filename);
 }
-void Game::loadGame() {
-	pauseGame();
-	resetGame();
+void Game::loadGameF(string filename) {
 	XMLDocument* doc = new XMLDocument;
-	doc->LoadFile("savegame.xml");
+	doc->LoadFile(filename.c_str());
 	XMLElement* root = doc->FirstChildElement();
 	load(root);
 	delete doc;
-	if (!started)
-		startGame();
-}
 
+	startGame();
+}
+void Game::loadGame() {
+	state = PLAYING;
+	Sleep(WAIT_FOR_THREAD_TO_TERMINATE);
+	
+	Prompt p;
+	string filename = p.show(window, keyBoardHandler, "LOAD SAVED GAME: Input file name to load: ");
+	filename += ".xml";
+	
+	XMLDocument* doc = new XMLDocument;
+	doc->LoadFile(filename.c_str());
+	load(doc->FirstChildElement());
+	delete doc;
+	startGame();
+}
 void Game::run() {
 	MenuHandler menu(window, keyBoardHandler, "Welcome to CROSS THE ROAD!!!", {
 		{"Start new game", startGame},
@@ -97,7 +120,7 @@ void Game::run() {
 void Game::process() {
 	MenuHandler gameOverHandler(window, keyBoardHandler, "GAME OVER!!!! RESTART???", {
 				{"Yeah maybe", startGame},
-				{"Fuck no", exitGame}
+				{"No thanks", exitGame}
 			});
 	while (isRunning()) {
 		map->run();
@@ -113,8 +136,7 @@ void Game::process() {
 	}
 }
 void Game::startGame() {
-	started = 1;
-	// resetGame();
+	state |= RUNNING;
 	thread gameProcessor([&] {process();});
 	while (isRunning()) {
 		char tmp = keyBoardHandler->getKey();
