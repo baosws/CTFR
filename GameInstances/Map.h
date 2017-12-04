@@ -1,6 +1,6 @@
 #pragma once
 #include "../includes.h"
-const int MAX_SPEED = 35;
+const int MAX_SPEED = 25;
 const int d_LEVEL = 5;
 class Map {
 	Window* window; // not save
@@ -13,6 +13,7 @@ class Map {
 	int defaultLevel = 0;
 	void initialLevel();
 public:
+	static int MaxLevel();
 	Map(Window*);
 	~Map();
 	void reset(bool);
@@ -28,7 +29,9 @@ public:
 	void save(XMLDocument* doc, XMLElement* root);
 	void load(XMLElement* root);
 };
-
+int Map::MaxLevel() {
+	return MAX_SPEED / d_LEVEL - 1;
+}
 Map::Map(Window* w = NULL) {
 	if (!w)
 		return;

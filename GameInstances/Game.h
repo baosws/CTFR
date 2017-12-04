@@ -29,6 +29,7 @@ public:
 typedef void (Game::*Command)();
 Game::Game() {
 	window = new Window();
+	window->setTitle("LOADING DATA");
 	Dialog loading(window);
 	loading.addContent("Loading data...");
 	loading.show();
@@ -50,24 +51,29 @@ bool Game::isRunning() {
 	return state & RUNNING;
 }
 void Game::pauseGame() {
+	window->setTitle("PAUSE GAME");
 	map->pause();
 	state &= ~PLAYING;
 }
 void Game::resumeGame() {
+	window->setTitle("RESUME GAME");
 	map->resume();
 	state |= PLAYING;
 }
 void Game::exitGame() {
+	window->setTitle("EXIT GAME");
 	state = 0;
 	Sleep(WAIT_FOR_THREAD_TO_TERMINATE);
 }
 void Game::resetGame() {
+	window->setTitle("WAITING");
 	state = RUNNING;
 	window->clearScreen(true);
 	map->reset();
 	keyBoardHandler->reset();
 }
 void Game::saveGame() {
+	window->setTitle("SAVE GAME");
 	state = PLAYING;
 	Sleep(WAIT_FOR_THREAD_TO_TERMINATE);
 
@@ -96,6 +102,7 @@ void Game::loadGameF(string filename) {
 	(this->*(afterSaving.run()))();
 }
 void Game::loadGame() {
+	window->setTitle("LOAD GAME");
 	state = PLAYING;
 	Sleep(WAIT_FOR_THREAD_TO_TERMINATE);
 	
@@ -104,15 +111,20 @@ void Game::loadGame() {
 	filename += ".xml";
 	
 	XMLDocument* doc = new XMLDocument;
-	doc->LoadFile(filename.c_str());
+	
+	while (doc->LoadFile(filename.c_str())) {
+		filename = p.show(window, keyBoardHandler, "LOAD SAVED GAME: File not available, please input file name to load a gain: ");
+		filename += ".xml";
+	}
 	load(doc->FirstChildElement());
 	delete doc;
 	startGame();
 }
 void Game::setting() {
 	exitGame();
+	window->setTitle("SETTING");
 	Prompt p;
-	string level = p.show(window, keyBoardHandler, "Choose level (0 -> 6): ");
+	string level = p.show(window, keyBoardHandler, "Choose level (0 -> " + to_string(Map::MaxLevel()) + "): ");
 	map->setLevel(to_num(level));
 }
 void Game::run() {
