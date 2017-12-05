@@ -11,8 +11,8 @@ protected:
 	vector<Point> toBeRendered, lastRendered; // save
 	void _putCharXY(int, int, char);
 	friend class Prompt;
-public:
 	void gotoXY(int, int);
+public:
 	Window(HANDLE, HWND, int, int, int, int);
 	~Window();
 	void fixConsoleWindow();
@@ -26,7 +26,7 @@ public:
 	void setTitle(const char*);
 };
 
-Window::Window(HANDLE _handle = STD_OUTPUT_HANDLE, HWND _consoleWindow = GetConsoleWindow(), int _x = 1, int _y = 1, int _width = 80, int _height = 22) {
+Window::Window(HANDLE _handle = STD_OUTPUT_HANDLE, HWND _consoleWindow = GetConsoleWindow(), int _x = 1, int _y = 1, int _width = DEFAULT_WINDOW_WIDTH, int _height = DEFAULT_WINDOW_HEIGHT) {
 	handle = _handle;
 	consoleWindow = _consoleWindow;
 	coord = Point(_x, _y);

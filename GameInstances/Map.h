@@ -52,6 +52,7 @@ void Map::setLevel(int lev) {
 }
 void Map::initialLevel() {
 	// addlane(safeDistX, safeDistY, count, speed, y = 0)
+	road->addLane<Dinosaur>(0, 12, 5, 0.3);
 	road->addLane<Bird>(0, 10, 15, -0.2);
 	road->addLane<Plane>(0, 15, 6, 0.8);
 	road->addLane<Car>(0, 10, 8, -0.4);

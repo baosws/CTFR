@@ -19,7 +19,7 @@ public:
 
 Player::Player(Window* w = NULL): Object(w) {
 	if (w)
-		coord = PointF(w->getHeight() - 1, w->getWidth() / 2 - 1);
+		coord = PointF(w->getHeight() - getHeight(), w->getWidth() / 2 - 1);
 }
 bool Player::isFinished() {
 	return coord.getX() == 0;

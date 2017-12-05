@@ -21,6 +21,8 @@ const int PLAYING = 2;
 const int LOADING_DATA = 500;
 const int LEVEL_UP = 1500;
 const int WAIT_FOR_THREAD_TO_TERMINATE = 100;
+const int DEFAULT_WINDOW_WIDTH = 80;
+const int DEFAULT_WINDOW_HEIGHT = 28;
 const int dx[] = {0, -1, 0, 1};
 const int dy[] = {-1, 0, 1, 0};
 string to_string(int x) {ostringstream os; os << x; return os.str();}
